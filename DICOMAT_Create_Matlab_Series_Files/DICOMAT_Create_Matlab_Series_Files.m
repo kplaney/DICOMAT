@@ -64,7 +64,7 @@ for s=1:num_scans
 	end
 	
 	% Update wairbar
-	waitbar((s-1)/num_scans, waitbar_handle, sprintf('Processing: %s (%d of %d)', scan_id, s, num_scans));
+	update_waitbar((s-1)/num_scans, waitbar_handle, sprintf('Processing: %s (%d of %d)', scan_id, s, num_scans));
 	set(waitbar_handle, 'Name', scan_id);
 	
   % Get the selected series directories for this scan
@@ -131,7 +131,7 @@ for s=1:num_scans
   		if isfield(handles, 'Patient_Data_Struct') && ~isempty(handles.Patient_Data_Struct) && ...
 				 isfield(handles, 'Scan_Patient_Data_Struct') && ~isempty(handles.Scan_Patient_Data_Struct)
 
-    		waitbar(1, waitbar_handle, 'Adding patient params to series file...');
+    		update_waitbar(1, waitbar_handle, 'Adding patient params to series file...');
     		Patient_Params = DICOMAT_Get_Patient_Params(scan_id, handles.Patient_Data_Struct, handles.Scan_Patient_Data_Struct, ...
     																						handles.log_file, handles.log_window_text);
 
@@ -142,7 +142,7 @@ for s=1:num_scans
 
 			% Update DICOM fields - either for anonymisation and/or user-defined resets/updates
 			if ~isempty(DICOM_field_updates)
-				waitbar(1, waitbar_handle, 'Updating DICOM metadata...');
+				update_waitbar(1, waitbar_handle, 'Updating DICOM metadata...');
 				DICOMAT_Reset_DICOM_Metadata(DICOM_field_updates, matlab_series_filepath, handles.log_file, handles.log_window_text);
 			end
 		else

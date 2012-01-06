@@ -51,13 +51,7 @@ for d=1:D
       disp_filename = strcat(seriesname, filesep, filename);
       disp_filename = strrep(disp_filename, '_', '\_');
       
-      msg = sprintf('Reading DICOM file:\n%s', disp_filename);
-      
-      if ~isempty(waitbar_handle)
-        % Update waitbar
-        waitbar_fraction = (d-1)*dir_frac + (n/N)*dir_frac;
-        waitbar(waitbar_fraction, waitbar_handle, msg);
-      end
+      update_waitbar((d-1)*dir_frac + (n/N)*dir_frac, waitbar_handle, sprintf('Reading DICOM file:\n%s', disp_filename));
       
 			% See if we can get the dicominfo for this file
 			try 

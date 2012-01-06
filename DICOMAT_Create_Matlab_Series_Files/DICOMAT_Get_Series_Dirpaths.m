@@ -33,8 +33,7 @@ for n=1:N
 		return;
 	end
 	
-	% Update wairbar
-	waitbar((n-1)/N, waitbar_handle, strrep(scan_dirpaths{n}, '_', '\_'));
+	update_waitbar((n-1)/N, waitbar_handle, strrep(scan_dirpaths{n}, '_', '\_'));
 	
 	% Get a list of subdirectories under this scan dir
   series_dirpaths = get_recursive_dirlist(scan_dirpaths{n}, 1);

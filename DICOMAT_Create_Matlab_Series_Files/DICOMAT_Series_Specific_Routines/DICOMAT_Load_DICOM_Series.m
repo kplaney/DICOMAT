@@ -22,14 +22,7 @@ if num_DICOM_files == 0
   return;
 end
   
-% Update waitbar or display the msg
-msg = 'Sorting series DICOM files...';
-
-if ~isempty(waitbar_handle)
-  waitbar(1, waitbar_handle, msg);
-else
-  disp(msg);
-end
+update_waitbar(1, waitbar_handle, 'Sorting series DICOM files...');
 
 % Sort DICOM files by slice position
 sort_idx = DICOMAT_Get_Sort_Index_By_Slice_Position(Info);

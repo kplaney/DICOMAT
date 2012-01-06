@@ -4,16 +4,9 @@ function [Data, Info, Acquisition_Times, warning_msgs] = DICOMAT_Load_BOLD_MRI_S
 
 Data = []; Info = []; Acquisition_Times = []; warning_msgs = [];
 
-% Read in all BOLD data for this scan
-msg = 'Reading in DICOM files for BOLD scan...';
+update_waitbar(0, waitbar_handle, 'Reading in DICOM files for BOLD scan...');
 
-if ~isempty(waitbar_handle)
-  waitbar(0, waitbar_handle, msg);
-else
-  disp(msg);
-end
-
-% Read in all data for this series
+% Read in all BOLD data for the  given series dirs
 [DICOM_files, Slice_Info, warning_msgs] = DICOMAT_Get_DICOM_Series_Metadata(BOLD_series_dirs, waitbar_handle);
 
 % Check if waitbar cancel button was pressed
@@ -28,14 +21,7 @@ if length(DICOM_files) == 0
   return;
 end
 
-% Update waitbar or display the msg
-msg = 'Sorting DICOM files for BOLD scan...';
-
-if ~isempty(waitbar_handle)
-  waitbar(0, waitbar_handle, msg);
-else
-  disp(msg);
-end
+update_waitbar(0, waitbar_handle, 'Sorting DICOM files for BOLD scan...');
 
 % Extract echo times
 TEs = [Slice_Info.EchoTime];
@@ -55,7 +41,6 @@ num_DICOM_files_per_TE = zeros(1,num_unique_TEs);
 % Loop over unique TEs
 for j=1:num_unique_TEs
   TE = unique_TEs(j);
-  msg = sprintf('Processing DICOM files for TE value %d of %d', j, num_unique_TEs);
 
   % Check if waitbar cancel button is pressed
   if check_if_waitbar_cancel_pressed(waitbar_handle)
@@ -64,13 +49,7 @@ for j=1:num_unique_TEs
     warning_msgs = sprintf('%s: Cancel button pressed', mfilename);
     return;
   else
-    if ~isempty(waitbar_handle)
-      % Update waitbar
-      waitbar_fraction = j / num_unique_TEs;
-      waitbar(waitbar_fraction, waitbar_handle, msg);
-    else
-      disp(msg);
-    end
+    update_waitbar(j / num_unique_TEs, waitbar_handle, sprintf('Processing DICOM files for TE value %d of %d', j, num_unique_TEs));
   end
   
   % Get an index vector for all DICOM files corresponding to this TE

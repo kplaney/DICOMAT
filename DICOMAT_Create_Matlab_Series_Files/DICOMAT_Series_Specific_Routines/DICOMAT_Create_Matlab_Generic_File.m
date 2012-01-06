@@ -85,14 +85,7 @@ if ~isempty(Data)
     end
   end
 
-  % Write series data to Matlab file
-  msg = 'Writing Matlab data file...';
-
-	if ~isempty(waitbar_handle)
-	  waitbar(1, waitbar_handle, msg);
-	else
-	  disp(msg);
-	end
+	update_waitbar(1, waitbar_handle, 'Writing Matlab data file...');
 
   % Write series data to Matlab file
   save(matlab_series_filepath, 'Data', 'Info', 'Acquisition_Times');

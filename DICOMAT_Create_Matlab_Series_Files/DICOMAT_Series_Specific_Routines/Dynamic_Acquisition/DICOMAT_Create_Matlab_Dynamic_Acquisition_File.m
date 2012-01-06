@@ -94,14 +94,7 @@ if ~isempty(Data)
   end
   
   % Write dynamic series data to Matlab file
-  msg = 'Writing Matlab data file...';
-
-	if ~isempty(waitbar_handle)
-	  waitbar(1, waitbar_handle, msg);
-	else
-	  disp(msg);
-	end
-	
+	update_waitbar(1, waitbar_handle, 'Writing Matlab data file...');	
   save(matlab_series_filepath, 'Data', 'Info', 'Acquisition_Times', 'sample_times');
 
  % Create a binary vector indicating which dynamic volumes are pre-injection

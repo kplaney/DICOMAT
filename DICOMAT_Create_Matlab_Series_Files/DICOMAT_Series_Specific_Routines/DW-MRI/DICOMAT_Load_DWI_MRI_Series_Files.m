@@ -1,19 +1,12 @@
 
 function [Data, Info, Acquisition_Times, warning_msgs] = DICOMAT_Load_DWI_MRI_Series_Files(DWI_series_dirs, pixel_class, ...
-																																											log_file, log_window_text, waitbar_handle)
+																																													 log_file, log_window_text, waitbar_handle)
 
 Data = []; Info = []; Acquisition_Times = []; warning_msgs = [];
 
-% Read in all DWI data for this scan
-msg = 'Reading in DICOM files for DWI scan...';
+update_waitbar(0, waitbar_handle, 'Reading in DICOM files for DWI scan...');
 
-if ~isempty(waitbar_handle)
-  waitbar(0, waitbar_handle, msg);
-else
-  disp(msg);
-end
-
-% Read in all data for this series
+% Read in all DWI series dirs for this scan
 [DICOM_files, Slice_Info, warning_msgs] = DICOMAT_Get_DICOM_Series_Metadata(DWI_series_dirs, waitbar_handle);
 
 % Check that we have some DICOM files for this series
@@ -56,7 +49,6 @@ num_DICOM_files_per_b_value = zeros(1,num_unique_b_values);
 % Loop over unique b-values
 for j=1:num_unique_b_values
   b_value = unique_b_values(j);
-  msg = sprintf('Processing DICOM files for b-value %d of %d', j, num_unique_b_values);
 
   % Check if waitbar cancel button is pressed
   if check_if_waitbar_cancel_pressed(waitbar_handle)
@@ -65,13 +57,7 @@ for j=1:num_unique_b_values
     warning_msgs = sprintf('%s: cancel button pressed', mfilename);
     return;
   else
-    if ~isempty(waitbar_handle)
-      % Update waitbar
-      waitbar_fraction = j / num_unique_b_values;
-      waitbar(waitbar_fraction, waitbar_handle, msg);
-    else
-      disp(msg);
-    end
+    update_waitbar(j / num_unique_b_values, waitbar_handle, sprintf('Processing DICOM files for b-value %d of %d', j, num_unique_b_values));
   end
   
   % Get an index vector for all DICOM files corresponding to this b-value
