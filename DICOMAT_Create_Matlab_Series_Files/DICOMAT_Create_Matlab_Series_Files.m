@@ -146,7 +146,7 @@ for s=1:num_scans
 				DICOMAT_Reset_DICOM_Metadata(DICOM_field_updates, matlab_series_filepath, handles.log_file, handles.log_window_text);
 			end
 		else
-			process_error_msg(sprintf('Problem encountered creating matlab series file: %s', matlab_series_filename), handles.log_file, handles.log_window_text);
+			output_msg(sprintf('Problem encountered creating matlab series file: %s', matlab_series_filename), handles.log_file, handles.log_window_text);
 			
 			% Delete waitbar
 			if ishandle(waitbar_handle)
@@ -156,7 +156,7 @@ for s=1:num_scans
 			return;
 		end
   else
-    process_error_msg(sprintf('No series directories selected for scan: %s. Skipping...', scan_id), handles.log_file, handles.log_window_text);
+    output_msg(sprintf('No series directories selected for scan: %s. Skipping...', scan_id), handles.log_file, handles.log_window_text);
   end
 end
 

@@ -121,7 +121,7 @@ if ~isnumeric(filename) & ~isnumeric(pathname)
   study_data_file = sprintf('%s%s', pathname, filename);
   
   % Read patient data file
-  [Patient_Data_Struct, column_headings] = read_patient_data_file(study_data_file);
+  [Patient_Data_Struct, column_headings] = DICOMAT_Read_Patient_Data_File(study_data_file);
   
   % Save into GUI data
   handles.study_data_file = study_data_file;

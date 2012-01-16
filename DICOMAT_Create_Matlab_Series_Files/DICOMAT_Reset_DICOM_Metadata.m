@@ -5,7 +5,7 @@ load(matlab_series_filepath, 'Info');
 
 % Check that Info exists in the given matlab file
 if ~exist('Info', 'var')
-	process_error_msg(sprintf('Unable to reset DICOM fields. No Info variable in matlab file: %s', matlab_series_fileapth), ...
+	output_msg(sprintf('Unable to reset DICOM fields. No Info variable in matlab file: %s', matlab_series_fileapth), ...
 										log_file, log_window_text);
 	return;
 else

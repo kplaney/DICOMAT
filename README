@@ -1,5 +1,8 @@
 DICOMAT: Create Matlab Series from DICOM Datasets
 
+Requires the Core_Routines and Core_GUI_Routines repos.
+
+
 Copyright (c) Nick Hughes 2012
 Email: nph123@gmail.com
 

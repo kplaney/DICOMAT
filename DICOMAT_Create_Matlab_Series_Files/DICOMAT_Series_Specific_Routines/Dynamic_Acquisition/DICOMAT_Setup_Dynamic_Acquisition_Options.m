@@ -43,7 +43,7 @@ function num_pre_injection_vols_editbox_Callback(hObject, eventdata, panel_handl
 
 num_pre_injection_vols_str = get(hObject,'String');
 num_pre_injection_vols = str2double(num_pre_injection_vols_str);
-valid_integer = check_is_valid_integer(num_pre_injection_vols) && num_pre_injection_vols > 0;
+valid_integer = is_valid_integer(num_pre_injection_vols) && num_pre_injection_vols > 0;
 
 if ~valid_integer
   uiwait(errordlg(sprintf('Invalid number of pre-injection volumes (%s)', num_pre_injection_vols_str), 'Number of pre-injection volumes'));
@@ -62,7 +62,7 @@ function temporal_res_editbox_Callback(hObject, eventdata, panel_handle)
 
 temporal_res_str = get(hObject,'String');
 temporal_res = str2double(temporal_res_str);
-valid_double = check_is_valid_double(temporal_res) && temporal_res > 0;
+valid_double = is_valid_double(temporal_res) && temporal_res > 0;
 
 if ~valid_double
   uiwait(errordlg(sprintf('Invalid temporal resolution (%s)', temporal_res_str), 'Temporal Resolution'));

@@ -6,17 +6,17 @@ ran_ok = false;
 
 % Check that series options struct contains the required fields
 if ~isfield(Series_Options, 'num_pre_injection_vols')
-  process_error_msg(sprintf('Scan ID: %s - num_pre_injection_vols field not defined in Series options struct', scan_id), log_file, log_window_text);
+  output_msg(sprintf('Scan ID: %s - num_pre_injection_vols field not defined in Series options struct', scan_id), log_file, log_window_text);
   return;
 end
 
 if ~isfield(Series_Options, 'temporal_res')
-  process_error_msg(sprintf('Scan ID: %s - temporal_res field not defined in Series options struct', scan_id), log_file, log_window_text);
+  output_msg(sprintf('Scan ID: %s - temporal_res field not defined in Series options struct', scan_id), log_file, log_window_text);
   return;
 end
 
 if ~isfield(Series_Options, 'pixel_class')
-  process_error_msg(sprintf('Scan ID: %s - pixel_class field not defined in Series options struct', scan_id), log_file, log_window_text);
+  output_msg(sprintf('Scan ID: %s - pixel_class field not defined in Series options struct', scan_id), log_file, log_window_text);
   return;
 end
 
@@ -34,7 +34,7 @@ end
 
 % Process any warning messages
 if ~isempty(warning_msgs)
-  process_error_msg(warning_msgs, log_file, log_window_text);
+  output_msg(warning_msgs, log_file, log_window_text);
 end
 
 if ~isempty(Data)
@@ -49,31 +49,31 @@ if ~isempty(Data)
     num_volume_Info = length(Info{v});
     
     if num_rows ~= first_volume_num_rows
-      process_error_msg(sprintf('Scan ID: %s - Number of image rows (%d) for first volume does not match number of image rows (%d) for volume %d', ...
+      output_msg(sprintf('Scan ID: %s - Number of image rows (%d) for first volume does not match number of image rows (%d) for volume %d', ...
                                 scan_id, first_volume_num_rows, num_rows, v), log_file, log_window_text);
-			process_error_msg({'DICOM series dirs:' scan_series_dirs{:}}, log_file, log_window_text);
+			output_msg({'DICOM series dirs:' scan_series_dirs{:}}, log_file, log_window_text);
       return;
     end
     
     if num_cols ~= first_volume_num_cols
-      process_error_msg(sprintf('Scan ID: %s - Number of image cols (%d) for first volume does not match number of image cols (%d) for volume %d', ...
+      output_msg(sprintf('Scan ID: %s - Number of image cols (%d) for first volume does not match number of image cols (%d) for volume %d', ...
                                 scan_id, first_volume_num_cols, num_cols, v), log_file, log_window_text);
-			process_error_msg({'DICOM series dirs:' scan_series_dirs{:}}, log_file, log_window_text);
+			output_msg({'DICOM series dirs:' scan_series_dirs{:}}, log_file, log_window_text);
       return;
     end
     
     if num_slices ~= first_volume_num_slices
-      process_error_msg(sprintf('Scan ID: %s - Number of slices (%d) for first volume does not match number of slices (%d) for volume %d', ...
+      output_msg(sprintf('Scan ID: %s - Number of slices (%d) for first volume does not match number of slices (%d) for volume %d', ...
                                 scan_id, first_volume_num_slices, num_slices, v), log_file, log_window_text);
-			process_error_msg({'DICOM series dirs:' scan_series_dirs{:}}, log_file, log_window_text);
+			output_msg({'DICOM series dirs:' scan_series_dirs{:}}, log_file, log_window_text);
       return;
     end
   
     % Check that size of the Info struct array for this volume matches the number of slices
     if num_volume_Info ~= first_volume_num_slices
-      process_error_msg(sprintf('Scan ID: %s - Number of slices (%d) for first volume does not match the number of Info records (%d) for volume %d', ...
+      output_msg(sprintf('Scan ID: %s - Number of slices (%d) for first volume does not match the number of Info records (%d) for volume %d', ...
                                 scan_id, first_volume_num_slices, num_volume_Info, v), log_file, log_window_text);
-			process_error_msg({'DICOM series dirs:' scan_series_dirs{:}}, log_file, log_window_text);
+			output_msg({'DICOM series dirs:' scan_series_dirs{:}}, log_file, log_window_text);
       return;
     end
   end
@@ -88,7 +88,7 @@ if ~isempty(Data)
     num_time_points = length(sample_times);
     
     if num_time_points ~= num_vols
-      process_error_msg(sprintf('Scan ID: %s - Number of Acquisition/Sample Times does not match the number of dynamic volumes'), ...
+      output_msg(sprintf('Scan ID: %s - Number of Acquisition/Sample Times does not match the number of dynamic volumes'), ...
                         scan_id, log_file, log_window_text);
     end
   end
@@ -105,7 +105,7 @@ if ~isempty(Data)
 		save(matlab_series_filepath, '-append', 'is_pre_injection_volume');
 	end
 else
-  process_error_msg(sprintf('Scan ID: %s - Data cell array for dynamic acquisition is empty, not writing Matlab file.', scan_id), log_file, log_window_text);
+  output_msg(sprintf('Scan ID: %s - Data cell array for dynamic acquisition is empty, not writing Matlab file.', scan_id), log_file, log_window_text);
 	return;
 end
 

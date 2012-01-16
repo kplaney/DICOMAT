@@ -22,7 +22,7 @@ if ~isempty(scan_dir_depth)
 		% If we have a patient/scan/series or scan/series hierarchy, check first if any scans were selected
 		if ~isempty(selected_scan_dirs_idx)
 			% Yes - so enable the load study data button
-			set(DICOMAT_guidata.load_study_data_button, 'Enable', 'on');
+			set(DICOMAT_guidata.load_study_data_button, 'Enable', 'off');   % change this to on to activate Load Study Data functionality
 			
 			% Check if we've already loaded some study data successfully
 			Patient_Data_Struct = getappdata(DICOMAT_GUI, 'Patient_Data_Struct');
@@ -30,7 +30,7 @@ if ~isempty(scan_dir_depth)
 			
 			if ~isempty(Patient_Data_Struct) && ~isempty(Patient_Data_Associations)
 				% If so enable the scan association button
-				set(DICOMAT_guidata.associate_scans_button, 'Enable', 'on');
+				set(DICOMAT_guidata.associate_scans_button, 'Enable', 'on');   % change this to on to activate Associate Scans functionality
 			end
 			
 			% Finally enable the create matlab series file button

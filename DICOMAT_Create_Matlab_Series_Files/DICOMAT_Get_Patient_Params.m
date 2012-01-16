@@ -7,13 +7,13 @@ MR_scan_param_tags = {'Weight', 'CA_Dose', 'CA_Type'};
 
 
 if isempty(Patient_Data_Struct)
-  process_error_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - no patient data loaded.', ...
+  output_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - no patient data loaded.', ...
                             Scan_ID), log_file, log_window_text);
   return;
 end
 
 if isempty(Scan_Patient_Data_Struct)
-  process_error_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - no scans have been associated with patient data.', ...
+  output_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - no scans have been associated with patient data.', ...
                             Scan_ID), log_file, log_window_text);
   return;
 end
@@ -21,7 +21,7 @@ end
 SPDS_idx = find_record_in_struct(Scan_Patient_Data_Struct, 'Scan_ID', Scan_ID);
 
 if isempty(SPDS_idx)
-  process_error_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - scan has not been associated with patient data.', ...
+  output_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - scan has not been associated with patient data.', ...
                             Scan_ID), log_file, log_window_text);
   return;
 end
@@ -30,13 +30,13 @@ Patient_ID = Scan_Patient_Data_Struct(SPDS_idx).Patient_ID;
 Scan_Date = Scan_Patient_Data_Struct(SPDS_idx).Scan_Date;
 
 if isempty(Patient_ID)
-  process_error_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - scan is associated with an empty patient id.', ...
+  output_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - scan is associated with an empty patient id.', ...
                             Scan_ID), log_file, log_window_text);
   return;
 end
 
 if isempty(Scan_Date)
-  process_error_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - scan is associated with an empty scan date.', ...
+  output_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - scan is associated with an empty scan date.', ...
                             Scan_ID), log_file, log_window_text);
   return;
 end
@@ -50,7 +50,7 @@ end
 %PDS_idx = find_record_in_struct(Patient_Data_Struct, 'Mouse_ID', Patient_ID);
 %
 %if isempty(PDS_idx)
-%  process_error_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - patient id (%s) does not exist in Patient Data Struct.', ...
+%  output_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - patient id (%s) does not exist in Patient Data Struct.', ...
 %                            Scan_ID, Patient_ID), log_file, log_window_text);
 %  return;
 %end
@@ -83,7 +83,7 @@ end
 PDS_idx = find_record_in_struct(Patient_Data_Struct, 'Patient_ID', Patient_ID);
 
 if isempty(PDS_idx)
-  process_error_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - patient id (%s) does not exist in Patient Data Struct.', ...
+  output_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - patient id (%s) does not exist in Patient Data Struct.', ...
                             Scan_ID, Patient_ID), log_file, log_window_text);
   return;
 end
@@ -91,7 +91,7 @@ end
 Scan_Date_idx = find(structfun(@(fieldval) strcmp(fieldval, Scan_Date), Patient_Data_Struct(PDS_idx)));
 
 if isempty(Scan_Date_idx)
-  process_error_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - scan date (%s) does not exist for patient id (%s).', ...
+  output_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - scan date (%s) does not exist for patient id (%s).', ...
                             Scan_ID, Scan_Date, Patient_ID), log_file, log_window_text);
   return;
 end
@@ -104,7 +104,7 @@ Scan_Type = strrep(Scan_Date_fieldname, '_date', '');
 scan_params_field_idx = find(cellfun(@(fieldname) ~isempty(strfind(fieldname, Scan_Type)), lower(PDS_fieldnames)));
 
 if isempty(scan_params_field_idx)
-  process_error_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - cannot find any scan parameters corresponding to scan date (%s).', ...
+  output_msg(sprintf('Scan ID: %s. Unable to add patient params to sequence file - cannot find any scan parameters corresponding to scan date (%s).', ...
                             Scan_ID, Scan_Date), log_file, log_window_text);
   return;
 end
@@ -117,7 +117,7 @@ for p=1:length(MR_scan_param_tags)
   idx = find(cellfun(@(fieldname) ~isempty(strfind(fieldname, lower(MR_scan_param_tag))), lower(scan_params_fieldnames)));
   
   if isempty(idx)
-    process_error_msg(sprintf('Scan ID: %s. Problem adding patient params to sequence file - cannot find MR patient parameter (%s) for MR scan type (%s).', ...
+    output_msg(sprintf('Scan ID: %s. Problem adding patient params to sequence file - cannot find MR patient parameter (%s) for MR scan type (%s).', ...
                               Scan_ID, MR_scan_param_tag, Scan_Type), log_file, log_window_text);
   else
     MR_scan_param_fieldname = scan_params_fieldnames{idx};

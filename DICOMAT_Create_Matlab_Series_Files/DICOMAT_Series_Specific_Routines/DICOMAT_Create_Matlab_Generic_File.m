@@ -13,7 +13,7 @@ end
 
 % Check that the pixel class is defined
 if ~isfield(Series_Options, 'pixel_class')
-  process_error_msg(sprintf('Scan ID: %s - pixel_class field not defined in Series options struct', scan_id), log_file, log_window_text);
+  output_msg(sprintf('Scan ID: %s - pixel_class field not defined in Series options struct', scan_id), log_file, log_window_text);
   return;
 end
 
@@ -52,7 +52,7 @@ for n=1:length(scan_series_dirs)
   	end
   
   	if ~isempty(warning_msgs)
-    	process_error_msg(warning_msgs, log_file, log_window_text);
+    	output_msg(warning_msgs, log_file, log_window_text);
   	end
 	else
 		Data = [];
@@ -70,17 +70,17 @@ if ~isempty(Data)
     [num_rows, num_cols, num_slices] = size(Data{n});
     
     if num_rows ~= num_series1_rows
-      process_error_msg(sprintf('Scan ID: %s - Number of image rows (%d) for first series does not match number of image rows (%d) for series %d', ...
+      output_msg(sprintf('Scan ID: %s - Number of image rows (%d) for first series does not match number of image rows (%d) for series %d', ...
                                 scan_id, num_series1_rows, num_rows, n), log_file, log_window_text);
     end
     
     if num_cols ~= num_series1_cols
-      process_error_msg(sprintf('Scan ID: %s - Number of image cols (%d) for first series does not match number of image cols (%d) for series %d', ...
+      output_msg(sprintf('Scan ID: %s - Number of image cols (%d) for first series does not match number of image cols (%d) for series %d', ...
                                 scan_id, num_series1_cols, num_cols, n), log_file, log_window_text);
     end
     
     if num_slices ~= num_series1_slices
-      process_error_msg(sprintf('Scan ID: %s - Number of slices (%d) for first series does not match number of slices (%d) for series %d', ...
+      output_msg(sprintf('Scan ID: %s - Number of slices (%d) for first series does not match number of slices (%d) for series %d', ...
                                 scan_id, num_series1_slices, num_slices, n), log_file, log_window_text);
     end
   end
@@ -90,7 +90,7 @@ if ~isempty(Data)
   % Write series data to Matlab file
   save(matlab_series_filepath, 'Data', 'Info', 'Acquisition_Times');
 else
-  process_error_msg(sprintf('Scan ID: %s - unable to find any valid DICOM files in selected series dirs.', scan_id), log_file, log_window_text);
+  output_msg(sprintf('Scan ID: %s - unable to find any valid DICOM files in selected series dirs.', scan_id), log_file, log_window_text);
 	return;
 end
 
